@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#123D34" />
+  <meta http-equiv="Permissions-Policy" content="microphone=(self)" />
+  <title>Informes técnicos VOLTIA | Revisión de instalación</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <header class="app-header">
+    <div class="topbar" aria-label="Cabecera de la aplicación">
+      <a class="brand-mark" href="#main" aria-label="Ir al inicio de la aplicación">
+        <span class="brand-symbol" aria-hidden="true">V</span>
+        <span class="brand-copy">
+          <strong>VOLTIA</strong>
+          <small>Informes técnicos</small>
+        </span>
+      </a>
+
+      <nav class="header-nav" aria-label="Secciones principales">
+        <a href="#datos-generales-title">Datos</a>
+        <a href="#revision-title">Elementos</a>
+        <a href="#informe-title">Informe</a>
+      </nav>
+
+      <div class="status-pill" id="saveStatus" aria-live="polite">Borrador listo</div>
+    </div>
+
+    <section class="hero-shell" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Aplicación de campo VOLTIA</p>
+        <h1 id="hero-title">Generador de informes técnicos para revisiones eléctricas</h1>
+
+        <div class="hero-actions">
+          <a class="primary-button hero-cta" href="#datos-generales-title">Empezar informe</a>
+          <a class="secondary-button hero-cta" href="#informe-title">Ver exportación</a>
+        </div>
+
+      </div>
+    </section>
+  </header>
+
+  <main id="main" class="layout">
+    <section class="card step-card" aria-labelledby="datos-generales-title">
+      <div class="section-heading">
+        <div class="step-number">1</div>
+        <div>
+          <p class="section-kicker">Inicio del parte</p>
+          <h2 id="datos-generales-title">Datos generales</h2>
+          <p>Campos principales del informe.</p>
+        </div>
+      </div>
+
+      <form id="generalForm" class="grid-form" autocomplete="on">
+        <label>
+          <span>Cliente <strong>*</strong></span>
+          <input id="cliente" name="cliente" type="text" required placeholder="Ej.: Empresa Cliente S.L." />
+        </label>
+
+        <label>
+          <span>Emplazamiento <strong>*</strong></span>
+          <input id="emplazamiento" name="emplazamiento" type="text" required placeholder="Ej.: Nave 3, Polígono Norte" />
+        </label>
+
+        <label>
+          <span>Instalación <strong>*</strong></span>
+          <input id="instalacion" name="instalacion" type="text" required placeholder="Ej.: Instalación eléctrica BT" />
+        </label>
+
+        <label>
+          <span>Número de informe <strong>*</strong></span>
+          <input id="numeroInforme" name="numeroInforme" type="text" required placeholder="Ej.: INF-2026-001" />
+        </label>
+      </form>
+    </section>
+
+    <section class="card step-card" aria-labelledby="revision-title">
+      <div class="section-heading">
+        <div class="step-number">2</div>
+        <div>
+          <p class="section-kicker">Trabajo de campo</p>
+          <h2 id="revision-title">Elementos revisados</h2>
+          <p>Añade los elementos uno por uno. Puedes escribir, dictar o usar lápiz en tablet.</p>
+        </div>
+      </div>
+
+      <form id="elementForm" class="element-form" autocomplete="off">
+        <input type="hidden" id="editingIndex" value="" />
+
+        <div class="field-block full-width">
+          <label for="elemento">Elemento revisado <strong>*</strong></label>
+          <div class="input-with-actions">
+            <input
+              id="elemento"
+              type="text"
+              required
+              list="elementosSugeridos"
+              placeholder="Ej.: Cuadro general, toma de tierra, magnetotérmico..."
+              aria-describedby="elementoHelp"
+            />
+            <button class="icon-button" type="button" id="voiceElemento" aria-label="Dictar elemento" title="Dictar elemento">🎙️</button>
+            <button class="icon-button" type="button" id="inkElemento" aria-label="Escribir elemento con lápiz" title="Escribir elemento con lápiz">✍️</button>
+          </div>
+          <datalist id="elementosSugeridos"></datalist>
+          <p id="elementoHelp" class="help-text">Empieza a escribir y se mostrarán las opciones más parecidas de la lista. El dictado requiere permiso de micrófono; con ✍️ puedes escribir a mano y la app intentará transcribirlo con el lector manuscrito nativo o con OCR en navegador.</p>
+          <div id="elementoInkPreview" class="ink-preview hidden" aria-live="polite"></div>
+        </div>
+
+        <label class="field-block">
+          <span>Valor numérico <strong>*</strong></span>
+          <input id="valor" type="number" inputmode="decimal" step="any" required placeholder="Ej.: 12.5" />
+        </label>
+
+        <fieldset class="field-block continuity-field">
+          <legend>Continuidad <strong>*</strong></legend>
+          <label class="radio-card">
+            <input type="radio" name="continuidad" value="Sí" required />
+            <span>Sí</span>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="continuidad" value="No" required />
+            <span>No</span>
+          </label>
+        </fieldset>
+
+        <div class="field-block full-width">
+          <label for="observaciones">Observaciones</label>
+          <div class="textarea-with-actions">
+            <textarea id="observaciones" rows="4" placeholder="Observaciones técnicas, incidencias, recomendaciones..."></textarea>
+            <button class="icon-button floating" type="button" id="voiceObservaciones" aria-label="Dictar observaciones" title="Dictar observaciones">🎙️</button>
+          </div>
+        </div>
+
+        <div class="form-actions full-width">
+          <button class="primary-button" type="submit" id="addElementButton">Añadir elemento</button>
+          <button class="secondary-button" type="button" id="clearElementForm">Limpiar</button>
+        </div>
+      </form>
+
+      <div class="table-toolbar">
+        <h3>Listado de elementos</h3>
+        <span id="elementCounter">0 elementos</span>
+      </div>
+
+      <div class="responsive-table" role="region" aria-label="Tabla de elementos revisados" tabindex="0">
+        <table>
+          <thead>
+            <tr>
+              <th>Elemento</th>
+              <th>Valor</th>
+              <th>Continuidad</th>
+              <th>Observaciones</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="elementsTableBody">
+            <tr class="empty-row">
+              <td colspan="5">Todavía no hay elementos añadidos.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card step-card report-card" aria-labelledby="informe-title">
+      <div class="section-heading">
+        <div class="step-number">3</div>
+        <div>
+          <p class="section-kicker">Entrega</p>
+          <h2 id="informe-title">Informe técnico</h2>
+          <p>Genera el documento final rellenando la plantilla técnica VOLTIA.</p>
+        </div>
+      </div>
+
+      <div class="report-actions">
+        <button class="primary-button large" type="button" id="generateReport">Generar informe</button>
+        <button class="secondary-button large" type="button" id="downloadHtml" disabled>Descargar HTML</button>
+        <button class="secondary-button large" type="button" id="downloadDoc" disabled>Descargar Word con plantilla (.docx)</button>
+        <button class="secondary-button large" type="button" id="printReport" disabled>Descargar PDF</button>
+        <button class="danger-button large" type="button" id="resetApp">Borrar todo</button>
+      </div>
+
+      <div id="validationSummary" class="validation-summary hidden" role="alert"></div>
+      <article id="reportPreview" class="report-preview hidden" aria-live="polite"></article>
+    </section>
+  </main>
+
+  <dialog id="inkDialog" class="ink-dialog" aria-labelledby="inkTitle">
+    <form method="dialog" class="dialog-content">
+      <div class="dialog-header">
+        <div>
+          <h2 id="inkTitle">Escritura con lápiz</h2>
+          <p>Escribe el nombre del elemento. La aplicación intentará leerlo y propondrá opciones de la lista.</p>
+        </div>
+        <button class="icon-button" value="cancel" type="submit" aria-label="Cerrar">✕</button>
+      </div>
+
+      <canvas id="inkCanvas" width="900" height="320" aria-label="Zona de escritura"></canvas>
+
+      <div id="inkStatus" class="ink-status" aria-live="polite">Escribe una palabra o frase y pulsa “Leer escritura”.</div>
+
+      <div class="candidate-block">
+        <span class="candidate-title">Opciones detectadas</span>
+        <div id="inkCandidates" class="ink-candidates" aria-live="polite"></div>
+      </div>
+
+      <label class="transcription-label">
+        <span>Texto que se guardará como Elemento</span>
+        <input id="inkTranscription" type="text" list="elementosSugeridos" placeholder="Ej.: Cuadro general de baja tensión" />
+      </label>
+
+      <div class="dialog-actions">
+        <button class="secondary-button" type="button" id="clearInk">Borrar trazo</button>
+        <button class="secondary-button" type="button" id="recognizeInk">Leer escritura</button>
+        <button class="primary-button" type="button" id="saveInk">Usar este texto</button>
+      </div>
+    </form>
+  </dialog>
+
+  <template id="reportTemplate">
+    <style>
+      body { font-family: Arial, sans-serif; color: #1f2937; margin: 32px; }
+      h1 { color: #0f172a; margin-bottom: 4px; }
+      .meta { color: #64748b; margin-bottom: 28px; }
+      .box { border: 1px solid #cbd5e1; border-radius: 10px; padding: 16px; margin: 18px 0; }
+      .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+      .label { font-weight: bold; color: #334155; display: block; font-size: 12px; text-transform: uppercase; }
+      table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+      th, td { border: 1px solid #cbd5e1; padding: 10px; text-align: left; vertical-align: top; }
+      th { background: #f1f5f9; }
+      .ink-img { max-width: 220px; border: 1px solid #cbd5e1; border-radius: 8px; margin-top: 6px; }
+      .signature { margin-top: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+      .line { border-top: 1px solid #94a3b8; padding-top: 8px; color: #475569; }
+      @media print { body { margin: 18mm; } .no-print { display:none; } }
+    </style>
+  </template>
+
+  <script>
+    window.INFORMES_CONFIG = {
+      // Mantener activado para intentar OCR en navegador si el lector manuscrito nativo no existe.
+      // Requiere conexión la primera vez para cargar Tesseract.js desde CDN.
+      enableTesseractFallback: true,
+      tesseractCdn: 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js',
+      // Opcional: si más adelante conectas un OCR propio, debe aceptar { imageDataUrl, language, suggestions }
+      // y responder { text: '...', candidates: [{ text: '...', score: 90 }] }.
+      handwritingOcrEndpoint: ''
+    };
+  </script>
+  <script src="template-voltia.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
